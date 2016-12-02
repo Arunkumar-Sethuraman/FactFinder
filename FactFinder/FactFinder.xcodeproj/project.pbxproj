@@ -14,6 +14,7 @@
 		6EA1602A1DF1565700B4CE11 /* FactIconDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA1601D1DF1565700B4CE11 /* FactIconDownloader.m */; };
 		6EA1602D1DF1565700B4CE11 /* Records.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160251DF1565700B4CE11 /* Records.m */; };
 		6EA1602E1DF1565700B4CE11 /* FactIconTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160281DF1565700B4CE11 /* FactIconTableViewCell.m */; };
+		6EC7B5A91DF194D0004719D1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7B5A81DF194D0004719D1 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,8 @@
 		6EA160251DF1565700B4CE11 /* Records.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Records.m; sourceTree = "<group>"; };
 		6EA160271DF1565700B4CE11 /* FactIconTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactIconTableViewCell.h; sourceTree = "<group>"; };
 		6EA160281DF1565700B4CE11 /* FactIconTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactIconTableViewCell.m; sourceTree = "<group>"; };
+		6EC7B5A71DF194D0004719D1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		6EC7B5A81DF194D0004719D1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,7 @@
 		6EA1601A1DF1565700B4CE11 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				6EC7B5A61DF194D0004719D1 /* Reachability */,
 				6EA1601B1DF1565700B4CE11 /* Constants.h */,
 				6EA1601C1DF1565700B4CE11 /* FactIconDownloader.h */,
 				6EA1601D1DF1565700B4CE11 /* FactIconDownloader.m */,
@@ -120,6 +124,15 @@
 				6EA160281DF1565700B4CE11 /* FactIconTableViewCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		6EC7B5A61DF194D0004719D1 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				6EC7B5A71DF194D0004719D1 /* Reachability.h */,
+				6EC7B5A81DF194D0004719D1 /* Reachability.m */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +207,7 @@
 				6EA160291DF1565700B4CE11 /* ViewController.m in Sources */,
 				6EA1602A1DF1565700B4CE11 /* FactIconDownloader.m in Sources */,
 				6EA160051DF155E000B4CE11 /* AppDelegate.m in Sources */,
+				6EC7B5A91DF194D0004719D1 /* Reachability.m in Sources */,
 				6EA160021DF155E000B4CE11 /* main.m in Sources */,
 				6EA1602E1DF1565700B4CE11 /* FactIconTableViewCell.m in Sources */,
 				6EA1602D1DF1565700B4CE11 /* Records.m in Sources */,

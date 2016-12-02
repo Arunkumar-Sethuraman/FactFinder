@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Records.h"
 #import "Constants.h"
+#import "Reachability.h"
 
 @interface AppDelegate ()
 
@@ -34,43 +35,69 @@
 
 // ParseJSON
 -(void)parseJSON {
+    NetworkStatus networkStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
     NSError *errorObj = nil;
-    // Convert string to URL
-    NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:jsonAppFeed] encoding:NSISOLatin1StringEncoding error:&errorObj];
-    NSDictionary *parsedDict = nil;
-    // Encode to data
-    NSData *metOfficeData = [string dataUsingEncoding:NSUTF8StringEncoding];
-    if(!metOfficeData){
-        NSLog(kNoData);
-    }
-    else {
-        // Getting parsed dictionary from JSON Serialization class
-        parsedDict = [NSJSONSerialization JSONObjectWithData:metOfficeData options:kNilOptions error:&errorObj];
-        if ([parsedDict isKindOfClass:[NSDictionary class]]) {
-            // Set the navigation bar title
-            NSString *appTitle = [parsedDict valueForKey:kTitle];
-            self.viewController.barTitle = [NSString stringWithFormat:@"%@", appTitle];
-            // Get the information from rows key
-            NSMutableArray *rows = [parsedDict valueForKey:kRows];
-            NSMutableArray *tempRecords = [[NSMutableArray alloc] init];
-            for (NSDictionary *dict in rows) {
-                //Update in Record object
-                Records *records = [[Records alloc] init];
-                records.title = [dict valueForKey:kTitle];
-                records.imageDescription = [dict valueForKey:kDescription];
-                records.imageHref = [dict valueForKey:kImageHref];
-                if (![records.title isKindOfClass:[NSNull class]] && ![records.imageDescription isKindOfClass:[NSNull class]] && ![records.imageHref isKindOfClass:[NSNull class]]) {
-                    [tempRecords addObject:records];
+    if (networkStatus == NotReachable) {
+        [self handleError:errorObj];
+    } else {
+        // Convert string to URL
+        NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:jsonAppFeed] encoding:NSISOLatin1StringEncoding error:&errorObj];
+        NSDictionary *parsedDict = nil;
+        // Encode to data
+        NSData *metOfficeData = [string dataUsingEncoding:NSUTF8StringEncoding];
+        if(!metOfficeData){
+            NSLog(kNoData);
+            // Handling error
+            [self handleError:errorObj];
+        }
+        else {
+            // Getting parsed dictionary from JSON Serialization class
+            parsedDict = [NSJSONSerialization JSONObjectWithData:metOfficeData options:kNilOptions error:&errorObj];
+            if ([parsedDict isKindOfClass:[NSDictionary class]]) {
+                // Set the navigation bar title
+                NSString *appTitle = [parsedDict valueForKey:kTitle];
+                self.viewController.barTitle = [NSString stringWithFormat:@"%@", appTitle];
+                // Get the information from rows key
+                NSMutableArray *rows = [parsedDict valueForKey:kRows];
+                NSMutableArray *tempRecords = [[NSMutableArray alloc] init];
+                for (NSDictionary *dict in rows) {
+                    //Update in Record object
+                    Records *records = [[Records alloc] init];
+                    records.title = [dict valueForKey:kTitle];
+                    records.imageDescription = [dict valueForKey:kDescription];
+                    records.imageHref = [dict valueForKey:kImageHref];
+                    if (![records.title isKindOfClass:[NSNull class]] && ![records.imageDescription isKindOfClass:[NSNull class]] && ![records.imageHref isKindOfClass:[NSNull class]]) {
+                        [tempRecords addObject:records];
+                    }
                 }
+                // Update in viewcontroller entries for table view data
+                self.viewController.entries = tempRecords;
+                // UI updates
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.viewController reloadData];
+                });
             }
-            // Update in viewcontroller entries for table view data
-            self.viewController.entries = tempRecords;
-            // UI updates
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.viewController reloadData];
-            });
         }
     }
+}
+
+// Handle error
+- (void)handleError:(NSError *)error {
+    NSString *errorMessage = [error localizedDescription];
+    // Alert user that our current record was deleted, and then we leave this view controller
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:kConnectivityIssue
+                                                                   message:errorMessage
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction *action) {
+                                                         //stop refresh
+                                                         [self.viewController stopPullToRefresh];
+                                                     }];
+    
+    [alert addAction:OKAction];
+    // Present the viewcontroller for alert
+    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
