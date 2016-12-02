@@ -7,14 +7,12 @@
 //
 // URL used for fetching the json
 static NSString *const jsonAppFeed = @"https://dl.dropboxusercontent.com/u/746330/facts.json";
-//static NSString *const jsonAppFeed = @"file:///Users/Arunkumar/Documents/OldMac_Desktop/ipa/temp/jsonSample.txt";
 
 // Appdelegate
 #define kTitle @"title"
 #define kDescription @"description"
 #define kImageHref @"imageHref"
 #define kRows @"rows"
-#define kNoData @"Error: No data"
 #define kConnectivityIssue @"Network Unavailable"
 
 // Viewcontroller

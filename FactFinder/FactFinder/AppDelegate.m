@@ -46,7 +46,6 @@
         // Encode to data
         NSData *metOfficeData = [string dataUsingEncoding:NSUTF8StringEncoding];
         if(!metOfficeData){
-            NSLog(kNoData);
             // Handling error
             [self handleError:errorObj];
         }

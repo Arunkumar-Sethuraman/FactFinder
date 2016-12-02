@@ -78,12 +78,20 @@
 // Updating the constraints of various elements
 - (void)updateConstraints {
     [self.lazyTableView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    // Set constraints
-    NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:self.lazyTableView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:self.lazyTableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-    NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:self.lazyTableView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0];
-    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.lazyTableView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-    [self.view addConstraints:@[left, top, right, bottom]];
+    // 1. Create a dictionary of views and metrics
+    NSDictionary *viewsDictionary = @{@"lazyTableView":self.lazyTableView};
+    NSDictionary *metrics = @{@"vSpacing":@0, @"hSpacing":@0};
+    // 2. Define the view Position and automatically the Size
+    NSArray *constraint_POS_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vSpacing-[lazyTableView]-vSpacing-|"
+                                                                        options:0
+                                                                        metrics:metrics
+                                                                          views:viewsDictionary];
+    NSArray *constraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hSpacing-[lazyTableView]-hSpacing-|"
+                                                                        options:0
+                                                                        metrics:metrics
+                                                                          views:viewsDictionary];
+    [self.view addConstraints:constraint_POS_V];
+    [self.view addConstraints:constraint_POS_H];
 }
 
 // Reloaddata
@@ -273,6 +281,11 @@
 - (void)dealloc {
     // terminate all pending download connections
     [self terminateAllDownloads];
+}
+
+// Interface orientation
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self reloadData];
 }
 
 @end

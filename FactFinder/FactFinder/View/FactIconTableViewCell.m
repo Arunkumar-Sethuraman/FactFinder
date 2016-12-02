@@ -31,22 +31,53 @@
         // Create icon image view
         self.iconImage =[[UIImageView alloc] init];
         [self.contentView addSubview:self.iconImage];
-        // Set constraints
-        [self.contentView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        // Update constraints
         [self updateConstraints];
     }
     return self;
 }
 
-- (void)updateConstraints {
+- (void)updateConstraints
+{
     [super updateConstraints];
-    // Setting constraints
-    NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:10];
-    NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-    NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1 constant:0];
-    NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:self.titleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-    // Add constraints to content view
-    [self.contentView addConstraints:@[left, top, right, bottom]];
+    // 1. Create a dictionary of views
+    NSDictionary *viewsDictionary = @{@"titleLabel":self.titleLabel, @"descriptionLabel":self.descriptionLabel, @"iconImage":self.iconImage};
+    // 2. Define the views Sizes
+    NSArray *red_constraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[titleLabel(30)]"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:viewsDictionary];
+    [self.titleLabel addConstraints:red_constraint_H];
+    NSArray *yellow_constraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[descriptionLabel(100)]"
+                                                                           options:0
+                                                                           metrics:nil
+                                                                             views:viewsDictionary];
+    [self.descriptionLabel addConstraints:yellow_constraint_V];
+    NSArray *blue_constraint_H = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[iconImage(90)]"
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewsDictionary];
+    
+    NSArray *blue_constraint_V = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[iconImage(90)]"
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:viewsDictionary];
+    [self.iconImage addConstraints:blue_constraint_H];
+    [self.iconImage addConstraints:blue_constraint_V];
+    // 3. Define the views Positions using options
+    NSArray *constraint_POS_V = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[titleLabel]-0-[descriptionLabel]-0-|"
+                                                                        options:0
+                                                                        metrics:nil
+                                                                          views:viewsDictionary];
+    NSArray *constraint_POS_H = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[titleLabel]-0-|"
+                                                                        options:NSLayoutFormatAlignAllTop
+                                                                        metrics:nil views:viewsDictionary];
+    NSArray *constraint_POS_iconImage = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[descriptionLabel]-0-[iconImage]-0-|"
+                                                                             options:NSLayoutFormatAlignAllTop
+                                                                             metrics:nil views:viewsDictionary];
+    [self.contentView addConstraints:constraint_POS_V];
+    [self.contentView addConstraints:constraint_POS_H];
+    [self.contentView addConstraints:constraint_POS_iconImage];
 }
 
 @end

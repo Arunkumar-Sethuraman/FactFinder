@@ -16,4 +16,6 @@
 @property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) UIImageView *iconImage;
 
+- (void)updateConstraints;
+
 @end
