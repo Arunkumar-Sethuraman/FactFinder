@@ -7,7 +7,6 @@
 //
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "FactViewController.h"
 
 @interface Records : NSObject
 
@@ -15,7 +14,5 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *imageHref;
 @property (nonatomic, strong) NSString *imageDescription;
-
-- (void)startIconDownload:(Records *)appRecord forIndexPath:(NSIndexPath *)indexPath forViewController:(FactViewController *)factViewController imageDictionary:(NSMutableDictionary *)imageDownloadsInProgress factFinderTableView:(UITableView *)factFinderTableView;
 
 @end

@@ -153,7 +153,7 @@
     // Only load cached images; defer new downloads until scrolling ends
     if (!appRecord.appIcon) {
         if (self.factFinderTableView.dragging == NO && self.factFinderTableView.decelerating == NO) {
-            [appRecord startIconDownload:appRecord forIndexPath:indexPath forViewController:self imageDictionary:self.imageDownloadsInProgress factFinderTableView:self.factFinderTableView];            
+            [self startIconDownload:appRecord forIndexPath:indexPath];
         }
         // if a download is deferred or in progress, return a placeholder image
         cell.iconImage.image = [UIImage imageNamed:@"Placeholder.png"];
@@ -224,6 +224,28 @@
 }
 
 #pragma mark - Table cell image support
+// Start the icon download progress
+- (void)startIconDownload:(Records *)appRecord forIndexPath:(NSIndexPath *)indexPath {
+    FactIconDownloader *factIconDownloader = (self.imageDownloadsInProgress)[indexPath];
+    if (factIconDownloader == nil) {
+        factIconDownloader = [[FactIconDownloader alloc] init];
+        factIconDownloader.records = appRecord;
+        [factIconDownloader setCompletionHandler:^{
+            FactIconTableViewCell *cell = [self.factFinderTableView cellForRowAtIndexPath:indexPath];
+            // Display the newly loaded image
+            cell.iconImage.image = appRecord.appIcon;
+            cell.iconImage.frame = CGRectMake(cell.bounds.size.width - kIconWidth - kSepSpacing, cell.titleLabel.frame.size.height, kIconWidth, kIconHeight);
+            // Remove the FactIconDownloader from the in progress list.
+            // This will result in it being deallocated.
+            [self.imageDownloadsInProgress removeObjectForKey:indexPath];
+        }];
+        (self.imageDownloadsInProgress)[indexPath] = factIconDownloader;
+        if (![appRecord.imageHref isKindOfClass:[NSNull class]]) {
+            [factIconDownloader startDownload:self];
+        }
+    }
+}
+
 // Download image on onscreen rows
 - (void)loadImagesForOnscreenRows {
     if (self.entries.count > 0) {
@@ -232,7 +254,7 @@
             Records *appRecord = (self.entries)[indexPath.row];
             if (!appRecord.appIcon) {
             // Avoid the app icon download if the app already has an icon
-                [appRecord startIconDownload:appRecord forIndexPath:indexPath forViewController:self imageDictionary:self.imageDownloadsInProgress factFinderTableView:self.factFinderTableView];
+                [self startIconDownload:appRecord forIndexPath:indexPath];
             }
         }
     }

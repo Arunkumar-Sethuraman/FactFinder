@@ -26,16 +26,6 @@
         // Create an session data task to obtain and download the app icon
         _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
                                                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                           // in case we want to know the response status code
-                                                           // NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-                                                           if (error != nil) {
-                                                               if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection) {
-                                                                   // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                                                                   // then your Info.plist has not been properly configured to match the target server.
-                                                                   //
-                                                                   abort();
-                                                               }
-                                                           }
                                                            // Used for highest level of abstraction
                                                            // NSOperationQueue is pretty well used for complex dependencies compared to GCD
                                                            [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
