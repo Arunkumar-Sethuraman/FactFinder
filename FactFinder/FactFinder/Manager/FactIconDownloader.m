@@ -7,7 +7,8 @@
 //
 #import "FactIconDownloader.h"
 #import "Records.h"
-
+#import "Reachability.h"
+#import "Constants.h"
 #define kAppIconSize 48
 
 @interface FactIconDownloader ()
@@ -17,45 +18,62 @@
 @implementation FactIconDownloader
 
 // Start Download
-- (void)startDownload
-{
-    // Create request
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.records.imageHref]];
-    // Create an session data task to obtain and download the app icon
-    _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                       // in case we want to know the response status code
-                                                       // NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
-                                                       if (error != nil) {
-                                                           if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection) {
-                                                               // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
-                                                               // then your Info.plist has not been properly configured to match the target server.
-                                                               //
-                                                               abort();
+- (void)startDownload:(FactViewController *)factViewController {
+    NetworkStatus networkStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
+    if (!(networkStatus == NotReachable)) {
+        // Create request
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.records.imageHref]];
+        // Create an session data task to obtain and download the app icon
+        _sessionTask = [[NSURLSession sharedSession] dataTaskWithRequest:request
+                                                       completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                           // in case we want to know the response status code
+                                                           // NSInteger HTTPStatusCode = [(NSHTTPURLResponse *)response statusCode];
+                                                           if (error != nil) {
+                                                               if ([error code] == NSURLErrorAppTransportSecurityRequiresSecureConnection) {
+                                                                   // if you get error NSURLErrorAppTransportSecurityRequiresSecureConnection (-1022),
+                                                                   // then your Info.plist has not been properly configured to match the target server.
+                                                                   //
+                                                                   abort();
+                                                               }
                                                            }
-                                                       }
-                                                       // Used for highest level of abstraction
-                                                       // NSOperationQueue is pretty well used for complex dependencies compared to GCD
-                                                       [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
-                                                           // Set appIcon and clear temporary data/image
-                                                           UIImage *image = [[UIImage alloc] initWithData:data];
-                                                           if (image.size.width != kAppIconSize || image.size.height != kAppIconSize) {
-                                                               CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                                                               UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                                                               CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                                                               [image drawInRect:imageRect];
-                                                               self.records.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                                                               UIGraphicsEndImageContext();
-                                                           } else {
-                                                               self.records.appIcon = image;
-                                                           }
-                                                           // call our completion handler to tell our client that our icon is ready for display
-                                                           if (self.completionHandler != nil) {
-                                                               self.completionHandler();
-                                                           }
+                                                           // Used for highest level of abstraction
+                                                           // NSOperationQueue is pretty well used for complex dependencies compared to GCD
+                                                           [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
+                                                               // Set appIcon and clear temporary data/image
+                                                               UIImage *image = [[UIImage alloc] initWithData:data];
+                                                               if (image.size.width != kAppIconSize || image.size.height != kAppIconSize) {
+                                                                   CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
+                                                                   UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
+                                                                   CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                                                                   [image drawInRect:imageRect];
+                                                                   self.records.appIcon = UIGraphicsGetImageFromCurrentImageContext();
+                                                                   UIGraphicsEndImageContext();
+                                                               } else {
+                                                                   self.records.appIcon = image;
+                                                               }
+                                                               // call our completion handler to tell our client that our icon is ready for display
+                                                               if (self.completionHandler != nil) {
+                                                                   self.completionHandler();
+                                                               }
+                                                           }];
                                                        }];
-                                                   }];
-    [self.sessionTask resume];
+        [self.sessionTask resume];
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:kConnectivityIssue
+                                                                       message:kInternetConnection
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action) {
+                                                             //stop refresh
+                                                             [factViewController stopPullToRefresh];
+                                                         }];
+        
+        [alert addAction:OKAction];
+        // Present the viewcontroller for alert
+        [factViewController presentViewController:alert animated:YES completion:nil];
+        [factViewController terminateAllDownloads];
+    }
 }
 
 // CancelDownload

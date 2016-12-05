@@ -6,15 +6,12 @@
 //  Copyright © 2016 Infosys. All rights reserved.
 //
 #import "AppDelegate.h"
-#import "ViewController.h"
-#import "Records.h"
-#import "Constants.h"
-#import "Reachability.h"
+#import "FactViewController.h"
 
 @interface AppDelegate ()
 
 @property(nonatomic, strong) UINavigationController *navigationController;
-@property(nonatomic, strong) ViewController *viewController;
+@property(nonatomic, strong) FactViewController *factViewController;
 @property(nonatomic, strong) NSData *jsonData;
 
 @end
@@ -26,77 +23,11 @@
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.viewController = [[ViewController alloc] init];
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
+    self.factViewController = [[FactViewController alloc] init];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.factViewController];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
     return YES;
-}
-
-// ParseJSON
--(void)parseJSON {
-    NetworkStatus networkStatus = [[Reachability reachabilityForInternetConnection] currentReachabilityStatus];
-    NSError *errorObj = nil;
-    if (networkStatus == NotReachable) {
-        [self handleError:errorObj];
-    } else {
-        // Convert string to URL
-        NSString *string = [NSString stringWithContentsOfURL:[NSURL URLWithString:jsonAppFeed] encoding:NSISOLatin1StringEncoding error:&errorObj];
-        NSDictionary *parsedDict = nil;
-        // Encode to data
-        NSData *metOfficeData = [string dataUsingEncoding:NSUTF8StringEncoding];
-        if(!metOfficeData){
-            // Handling error
-            [self handleError:errorObj];
-        }
-        else {
-            // Getting parsed dictionary from JSON Serialization class
-            parsedDict = [NSJSONSerialization JSONObjectWithData:metOfficeData options:kNilOptions error:&errorObj];
-            if ([parsedDict isKindOfClass:[NSDictionary class]]) {
-                // Set the navigation bar title
-                NSString *appTitle = [parsedDict valueForKey:kTitle];
-                self.viewController.barTitle = [NSString stringWithFormat:@"%@", appTitle];
-                // Get the information from rows key
-                NSMutableArray *rows = [parsedDict valueForKey:kRows];
-                NSMutableArray *tempRecords = [[NSMutableArray alloc] init];
-                for (NSDictionary *dict in rows) {
-                    //Update in Record object
-                    Records *records = [[Records alloc] init];
-                    records.title = [dict valueForKey:kTitle];
-                    records.imageDescription = [dict valueForKey:kDescription];
-                    records.imageHref = [dict valueForKey:kImageHref];
-                    if (![records.title isKindOfClass:[NSNull class]] && ![records.imageDescription isKindOfClass:[NSNull class]] && ![records.imageHref isKindOfClass:[NSNull class]]) {
-                        [tempRecords addObject:records];
-                    }
-                }
-                // Update in viewcontroller entries for table view data
-                self.viewController.entries = tempRecords;
-                // UI updates
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.viewController reloadData];
-                });
-            }
-        }
-    }
-}
-
-// Handle error
-- (void)handleError:(NSError *)error {
-    NSString *errorMessage = [error localizedDescription];
-    // Alert user that our current record was deleted, and then we leave this view controller
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:kConnectivityIssue
-                                                                   message:errorMessage
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction *action) {
-                                                         //stop refresh
-                                                         [self.viewController stopPullToRefresh];
-                                                     }];
-    
-    [alert addAction:OKAction];
-    // Present the viewcontroller for alert
-    [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

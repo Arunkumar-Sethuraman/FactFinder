@@ -14,6 +14,7 @@ static NSString *const jsonAppFeed = @"https://dl.dropboxusercontent.com/u/74633
 #define kImageHref @"imageHref"
 #define kRows @"rows"
 #define kConnectivityIssue @"Network Unavailable"
+#define kInternetConnection @"Please check the Internet Connection"
 
 // Viewcontroller
 #define kCustomRowCount 7

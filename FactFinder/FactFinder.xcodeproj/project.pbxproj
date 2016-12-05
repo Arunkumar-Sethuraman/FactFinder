@@ -10,10 +10,11 @@
 		6EA160021DF155E000B4CE11 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160011DF155E000B4CE11 /* main.m */; };
 		6EA160051DF155E000B4CE11 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160041DF155E000B4CE11 /* AppDelegate.m */; };
 		6EA1600D1DF155E000B4CE11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EA1600C1DF155E000B4CE11 /* Assets.xcassets */; };
-		6EA160291DF1565700B4CE11 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160191DF1565700B4CE11 /* ViewController.m */; };
+		6EA160291DF1565700B4CE11 /* FactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160191DF1565700B4CE11 /* FactViewController.m */; };
 		6EA1602A1DF1565700B4CE11 /* FactIconDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA1601D1DF1565700B4CE11 /* FactIconDownloader.m */; };
 		6EA1602D1DF1565700B4CE11 /* Records.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160251DF1565700B4CE11 /* Records.m */; };
 		6EA1602E1DF1565700B4CE11 /* FactIconTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA160281DF1565700B4CE11 /* FactIconTableViewCell.m */; };
+		6EC02F001DF55699004648E1 /* ParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC02EFF1DF55699004648E1 /* ParseOperation.m */; };
 		6EC7B5A91DF194D0004719D1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7B5A81DF194D0004719D1 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
@@ -24,8 +25,8 @@
 		6EA160041DF155E000B4CE11 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6EA1600C1DF155E000B4CE11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6EA160111DF155E000B4CE11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6EA160181DF1565700B4CE11 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		6EA160191DF1565700B4CE11 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		6EA160181DF1565700B4CE11 /* FactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactViewController.h; sourceTree = "<group>"; };
+		6EA160191DF1565700B4CE11 /* FactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactViewController.m; sourceTree = "<group>"; };
 		6EA1601B1DF1565700B4CE11 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		6EA1601C1DF1565700B4CE11 /* FactIconDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactIconDownloader.h; sourceTree = "<group>"; };
 		6EA1601D1DF1565700B4CE11 /* FactIconDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactIconDownloader.m; sourceTree = "<group>"; };
@@ -33,6 +34,8 @@
 		6EA160251DF1565700B4CE11 /* Records.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Records.m; sourceTree = "<group>"; };
 		6EA160271DF1565700B4CE11 /* FactIconTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FactIconTableViewCell.h; sourceTree = "<group>"; };
 		6EA160281DF1565700B4CE11 /* FactIconTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FactIconTableViewCell.m; sourceTree = "<group>"; };
+		6EC02EFE1DF55699004648E1 /* ParseOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseOperation.h; sourceTree = "<group>"; };
+		6EC02EFF1DF55699004648E1 /* ParseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseOperation.m; sourceTree = "<group>"; };
 		6EC7B5A71DF194D0004719D1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		6EC7B5A81DF194D0004719D1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,8 +94,8 @@
 		6EA160171DF1565700B4CE11 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				6EA160181DF1565700B4CE11 /* ViewController.h */,
-				6EA160191DF1565700B4CE11 /* ViewController.m */,
+				6EA160181DF1565700B4CE11 /* FactViewController.h */,
+				6EA160191DF1565700B4CE11 /* FactViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -104,6 +107,8 @@
 				6EA1601B1DF1565700B4CE11 /* Constants.h */,
 				6EA1601C1DF1565700B4CE11 /* FactIconDownloader.h */,
 				6EA1601D1DF1565700B4CE11 /* FactIconDownloader.m */,
+				6EC02EFE1DF55699004648E1 /* ParseOperation.h */,
+				6EC02EFF1DF55699004648E1 /* ParseOperation.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -204,13 +209,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EA160291DF1565700B4CE11 /* ViewController.m in Sources */,
+				6EA160291DF1565700B4CE11 /* FactViewController.m in Sources */,
 				6EA1602A1DF1565700B4CE11 /* FactIconDownloader.m in Sources */,
 				6EA160051DF155E000B4CE11 /* AppDelegate.m in Sources */,
 				6EC7B5A91DF194D0004719D1 /* Reachability.m in Sources */,
 				6EA160021DF155E000B4CE11 /* main.m in Sources */,
 				6EA1602E1DF1565700B4CE11 /* FactIconTableViewCell.m in Sources */,
 				6EA1602D1DF1565700B4CE11 /* Records.m in Sources */,
+				6EC02F001DF55699004648E1 /* ParseOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

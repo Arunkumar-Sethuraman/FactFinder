@@ -16,6 +16,11 @@
         reuseID = reuseIdentifier;
         // Create title label
         self.titleLabel = [[UILabel alloc] init];
+        if (reuseID == PlaceholderCellIdentifier) {
+            self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        } else {
+            self.titleLabel.textAlignment = NSTextAlignmentLeft;
+        }
         self.titleLabel.textColor = [UIColor colorWithRed:(43/255.f) green:(62/255.f) blue:(117/255.f) alpha:1.0];
         [self.titleLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
         self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;

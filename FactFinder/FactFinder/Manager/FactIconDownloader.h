@@ -6,6 +6,7 @@
 //  Copyright © 2016 Infosys. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+#import "FactViewController.h"
 @class Records;
 
 @interface FactIconDownloader : NSObject
@@ -14,7 +15,7 @@
 @property (nonatomic, copy) void (^completionHandler)(void);
 
 // Start icon download
-- (void)startDownload;
+- (void)startDownload:(FactViewController *)factViewController;
 
 // Cancel icon download
 - (void)cancelDownload;

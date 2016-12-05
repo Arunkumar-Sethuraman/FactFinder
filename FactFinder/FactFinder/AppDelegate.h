@@ -11,8 +11,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-// Parse JSON from fact finder URL
--(void)parseJSON;
-
 @end
 
