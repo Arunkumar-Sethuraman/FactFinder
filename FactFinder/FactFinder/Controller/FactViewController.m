@@ -156,7 +156,7 @@
             [self startIconDownload:appRecord forIndexPath:indexPath];
         }
         // if a download is deferred or in progress, return a placeholder image
-        cell.iconImage.image = [UIImage imageNamed:@"Placeholder.png"];
+        cell.iconImage.image = [UIImage imageNamed:kPlaceholder];
     }
     else {
         cell.iconImage.image = appRecord.appIcon;

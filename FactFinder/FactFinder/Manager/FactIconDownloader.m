@@ -31,15 +31,19 @@
                                                            [[NSOperationQueue mainQueue] addOperationWithBlock: ^{
                                                                // Set appIcon and clear temporary data/image
                                                                UIImage *image = [[UIImage alloc] initWithData:data];
-                                                               if (image.size.width != kAppIconSize || image.size.height != kAppIconSize) {
-                                                                   CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
-                                                                   UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
-                                                                   CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
-                                                                   [image drawInRect:imageRect];
-                                                                   self.records.appIcon = UIGraphicsGetImageFromCurrentImageContext();
-                                                                   UIGraphicsEndImageContext();
+                                                               if (image) {
+                                                                   if (image.size.width != kAppIconSize || image.size.height != kAppIconSize) {
+                                                                       CGSize itemSize = CGSizeMake(kAppIconSize, kAppIconSize);
+                                                                       UIGraphicsBeginImageContextWithOptions(itemSize, NO, 0.0f);
+                                                                       CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+                                                                       [image drawInRect:imageRect];
+                                                                       self.records.appIcon = UIGraphicsGetImageFromCurrentImageContext();
+                                                                       UIGraphicsEndImageContext();
+                                                                   } else {
+                                                                       self.records.appIcon = image;
+                                                                   }
                                                                } else {
-                                                                   self.records.appIcon = image;
+                                                                   self.records.appIcon = [UIImage imageNamed:kPlaceholder];
                                                                }
                                                                // call our completion handler to tell our client that our icon is ready for display
                                                                if (self.completionHandler != nil) {

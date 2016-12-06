@@ -17,6 +17,7 @@ static NSString *const jsonAppFeed = @"https://dl.dropboxusercontent.com/u/74633
 #define kInternetConnection @"Please check the Internet Connection"
 
 // Viewcontroller
+#define kPlaceholder @"Placeholder.png"
 #define kCustomRowCount 7
 #define kCustomRowHeight 130
 #define kBorderWidth 1.0
