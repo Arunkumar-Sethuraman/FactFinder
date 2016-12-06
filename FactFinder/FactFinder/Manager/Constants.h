@@ -18,7 +18,7 @@ static NSString *const jsonAppFeed = @"https://dl.dropboxusercontent.com/u/74633
 
 // Viewcontroller
 #define kCustomRowCount 7
-#define kCustomRowHeight 300
+#define kCustomRowHeight 130
 #define kBorderWidth 1.0
 #define kCornerRadius 2.0
 #define kIconWidth 90

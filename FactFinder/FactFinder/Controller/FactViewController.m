@@ -169,7 +169,7 @@
     if (![appRecord.imageDescription isKindOfClass:[NSNull class]]) {
         CGRect labelHeight = [self calculateDescriptionLabelHeight:appRecord];
         float ht = 30 + labelHeight.size.height;
-        if (ht < 130 && ![appRecord.imageHref isKindOfClass:[NSNull class]]) {
+        if (ht < 130) {
             return 130;
         }
         return ht;

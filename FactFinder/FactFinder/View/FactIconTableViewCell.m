@@ -37,7 +37,8 @@
         self.iconImage =[[UIImageView alloc] init];
         [self.contentView addSubview:self.iconImage];
         // Update constraints
-        [self updateConstraints];
+        [self setNeedsUpdateConstraints];
+        [self layoutIfNeeded];
     }
     return self;
 }

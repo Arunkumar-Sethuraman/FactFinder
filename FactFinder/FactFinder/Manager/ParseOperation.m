@@ -45,7 +45,7 @@
                     records.title = [dict valueForKey:kTitle];
                     records.imageDescription = [dict valueForKey:kDescription];
                     records.imageHref = [dict valueForKey:kImageHref];
-                    if (![records.title isKindOfClass:[NSNull class]] && ![records.imageDescription isKindOfClass:[NSNull class]] && ![records.imageHref isKindOfClass:[NSNull class]]) {
+                    if (![records.title isKindOfClass:[NSNull class]]) {
                         [tempRecords addObject:records];
                     }
                 }
